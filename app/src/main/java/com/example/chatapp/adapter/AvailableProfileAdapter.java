@@ -17,14 +17,14 @@ import com.example.chatapp.R;
 import com.example.chatapp.custom.CustomDialog;
 import com.example.chatapp.model.AvailableProfile;
 import com.example.chatapp.model.Profile;
-import com.google.android.gms.ads.AdView;
+
 
 import java.util.List;
 
 public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int ITEM_TYPE_PROFILE = 0;
-    private static final int ITEM_TYPE_BANNER_AD = 1;
 
+
+    private static final int ITEM_TYPE_PROFILE =0 ;
     private Context context;
     private List<Object> availableProfiles;
     public AvailableProfileAdapter(@NonNull Context context, List<Object> availableProfiles) {
@@ -37,15 +37,7 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            case ITEM_TYPE_BANNER_AD:
-                //Inflate ad banner container
-                View bannerLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_ad_row, parent, false);
 
-                //Create View Holder
-               AdViewHolder adViewHolder = new AdViewHolder(bannerLayoutView);
-
-                return adViewHolder;
-            case ITEM_TYPE_PROFILE:
             default:
                 LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
                 View listItem= layoutInflater.inflate(R.layout.card_view_available_profile, parent, false);
@@ -60,24 +52,7 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
         int viewType = getItemViewType(position);
 
         switch (viewType) {
-            case ITEM_TYPE_BANNER_AD:
-                if (availableProfiles.get(position) instanceof AdView) {
-                    AdViewHolder bannerHolder = (AdViewHolder) holder;
-                    AdView adView = (AdView) availableProfiles.get(position);
-                    ViewGroup adCardView = (ViewGroup) bannerHolder.itemView;
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                    if (adView.getParent() != null) {
-                        ((ViewGroup) adView.getParent()).removeView(adView);
-                    }
 
-                    // Add the banner ad to the ad view.
-                    adCardView.addView(adView);
-                }
-                break;
-
-            case ITEM_TYPE_PROFILE:
             default:
                 if( availableProfiles.get(position) instanceof Profile){
                     AvailableProfile availableProfile= (AvailableProfile) availableProfiles.get(position);
@@ -130,13 +105,9 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position)
     {
-        if (position == 0 || availableProfiles.get(position) instanceof AvailableProfile)
-        {
+
             return ITEM_TYPE_PROFILE;
-        } else
-        {
-            return (position % AvailableProfileActivity.ITEMS_PER_AD == 0) ? ITEM_TYPE_BANNER_AD : ITEM_TYPE_PROFILE;
-        }
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -152,12 +123,5 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    //Banner Ad View Holder
-    class AdViewHolder extends RecyclerView.ViewHolder
-    {
-        AdViewHolder(View itemView)
-        {
-            super(itemView);
-        }
-    }
+
 }

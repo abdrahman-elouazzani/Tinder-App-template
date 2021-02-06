@@ -14,10 +14,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.chatapp.MainActivity"/>
-            <meta-data
-                android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="@string/admob_banner_ad_id"/>
-                />
+
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
