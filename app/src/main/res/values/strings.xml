@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Chatapp</string>
+    <string-array name="full_names">
+        <item>emma waston</item>
+        <item>nadia</item>
+        <item>sara</item>
+        <item>hoda</item>
+        <item>karima</item>
+        <item>jesica</item>
+        <item>johana</item>
+        <item>katrena</item>
+    </string-array>
+    <string name="year">year</string>
+    <string name="close">Close</string>
+    <string name="rate">Rate app</string>
+    <string name="dialog_title">Alert :</string>
+    <string name="dialog_message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu erat tincidunt lacus fermentum rutrum.</string>
+    <string name="admob_banner_ad_id" />
+    <string-array name="text_array">
+        <item>Hellow dear Im here</item>
+        <item>I won to chat now </item>
+        <item>Hellow dear Im here</item>
+        <item>Hellow dear Im here</item>
+        <item>Hellow dear Im here</item>
+        <item>Hellow dear Im here</item>
+        <item>Hellow dear Im here</item>
+        <item>Hellow dear Im here</item>
+    </string-array>
+</resources>
