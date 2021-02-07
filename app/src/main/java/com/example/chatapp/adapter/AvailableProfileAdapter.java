@@ -58,9 +58,9 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
                     AvailableProfile availableProfile= (AvailableProfile) availableProfiles.get(position);
                     final Profile profile=availableProfile.getProfile();
                     ViewHolder viewHolder= (ViewHolder) holder;
-                    viewHolder.fullNameText.setText(""+profile.getFullName());
+                    viewHolder.fullNameText.setText(""+profile.getName());
                     viewHolder.ageText.setText(""+profile.getAge()+"  year");
-                    Glide.with(viewHolder.image_pic).load(getImage(profile.getImageUrl())).into(viewHolder.image_pic);
+                    Glide.with(viewHolder.image_pic).load(getImage(profile.getProfile_pic())).into(viewHolder.image_pic);
                     viewHolder.textView.setText(availableProfile.getText());
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override

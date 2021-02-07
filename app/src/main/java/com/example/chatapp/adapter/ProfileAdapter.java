@@ -43,9 +43,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public void onBindViewHolder(@NonNull ProfileAdapter.ViewHolder holder, int position) {
         final Profile profile=profileList.get(position);
         if(profile!=null){
-            holder.fullNameText.setText(""+profile.getFullName());
+            holder.fullNameText.setText(""+profile.getName());
             holder.ageText.setText(""+profile.getAge()+"  year");
-            Glide.with(holder.image_pic).load(getImage(profile.getImageUrl())).into(holder.image_pic);
+            Glide.with(holder.image_pic).load(getImage(profile.getProfile_pic())).into(holder.image_pic);
 
 
         }
