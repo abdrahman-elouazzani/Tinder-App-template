@@ -23,11 +23,9 @@ import java.util.List;
 
 public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    private static final int ITEM_TYPE_PROFILE =0 ;
     private Context context;
-    private List<Object> availableProfiles;
-    public AvailableProfileAdapter(@NonNull Context context, List<Object> availableProfiles) {
+    private List<AvailableProfile> availableProfiles;
+    public AvailableProfileAdapter(@NonNull Context context, List<AvailableProfile> availableProfiles) {
         this.context=context;
         this.availableProfiles=availableProfiles;
 
@@ -36,57 +34,33 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
 
-            default:
-                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-                View listItem= layoutInflater.inflate(R.layout.card_view_available_profile, parent, false);
-                AvailableProfileAdapter.ViewHolder viewHolder = new AvailableProfileAdapter.ViewHolder(listItem);
-                return viewHolder;
-        }
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View listItem= layoutInflater.inflate(R.layout.card_view_available_profile, parent, false);
+        AvailableProfileAdapter.ViewHolder viewHolder = new AvailableProfileAdapter.ViewHolder(listItem);
+        return viewHolder;
+
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        int viewType = getItemViewType(position);
+        //  if( availableProfiles.get(position) instanceof AvailableProfile){
+        AvailableProfile availableProfile= (AvailableProfile) availableProfiles.get(position);
+        final Profile profile=availableProfile.getProfile();
+        ViewHolder viewHolder= (ViewHolder) holder;
+        viewHolder.fullNameText.setText(""+profile.getName());
+        viewHolder.ageText.setText(""+profile.getAge()+"  year");
+        Glide.with(viewHolder.image_pic).load(profile.getProfile_pic()).into(viewHolder.image_pic);
+        viewHolder.textView.setText(availableProfile.getText());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialog customDialog =new CustomDialog();
+                customDialog.createDialog(context);
 
-        switch (viewType) {
-
-            default:
-                if( availableProfiles.get(position) instanceof Profile){
-                    AvailableProfile availableProfile= (AvailableProfile) availableProfiles.get(position);
-                    final Profile profile=availableProfile.getProfile();
-                    ViewHolder viewHolder= (ViewHolder) holder;
-                    viewHolder.fullNameText.setText(""+profile.getName());
-                    viewHolder.ageText.setText(""+profile.getAge()+"  year");
-                    Glide.with(viewHolder.image_pic).load(profile.getProfile_pic()).into(viewHolder.image_pic);
-                    viewHolder.textView.setText(availableProfile.getText());
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            CustomDialog customDialog =new CustomDialog();
-                            customDialog.createDialog(context);
-                            customDialog.buttonRate.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(context.getApplicationContext(), "Please Rate this Place ", Toast.LENGTH_LONG).show();
-                                }
-
-                            });
-                            customDialog.buttonClose.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    customDialog.alertDialog.dismiss();
-                                }
-                            });
-
-                        }
-                    });
-
-                }
-        }
-
+            }
+        });
 
     }
 
@@ -102,13 +76,6 @@ public class AvailableProfileAdapter extends RecyclerView.Adapter<RecyclerView.V
         return availableProfiles.size();
     }
 
-    @Override
-    public int getItemViewType(int position)
-    {
-
-            return ITEM_TYPE_PROFILE;
-
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView fullNameText, ageText, textView;
