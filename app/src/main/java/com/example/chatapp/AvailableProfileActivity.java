@@ -54,7 +54,7 @@ public class AvailableProfileActivity extends AppCompatActivity {
     }
 
     private void addProfilesData() {
-        listData.addAll(ProfileDAO.createAvailableProfiles(this));
+        listData.addAll(new ProfileDAO().createAvailableProfiles(this));
     }
 
     @Override

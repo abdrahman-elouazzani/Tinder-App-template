@@ -2,19 +2,18 @@ package com.example.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.controls.actions.FloatAction;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 
 import com.example.chatapp.adapter.ProfileAdapter;
 import com.example.chatapp.model.Profile;
-import com.example.chatapp.model.ProfileDAO;
+import com.example.chatapp.WebServices.ProfileAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -29,10 +28,17 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity implements CardStackListener {
     private ProfileAdapter profileAdapter;
     private CardStackLayoutManager layoutManager;
     private CardStackView cardStackView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +46,43 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         setContentView(R.layout.activity_main);
         cardStackView=findViewById(R.id.card_stack_view);
         layoutManager= new CardStackLayoutManager(this,this);
-        profileAdapter=new ProfileAdapter(this,createProfiles());
-
         setUpCardStack();
         setupButton();
+        setUpProgressDialog();
+        getWebServiceResponseData();
+
 
     }
+    // call the api to get profiles data
+    private void getWebServiceResponseData() {
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(ProfileAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        ProfileAPI profileAPI=retrofit.create(ProfileAPI.class);
+        Call<List<Profile>> call=profileAPI.getProfiles();
+        call.enqueue(new Callback<List<Profile>>() {
+            @Override
+            public void onResponse(Call<List<Profile>> call, Response<List<Profile>> response) {
+
+                List<Profile> profileList=new ArrayList<>(response.body());
+                Log.d("Profiles",""+ profileList);
+                profileAdapter=new ProfileAdapter(getApplicationContext(),profileList);
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                cardStackView.setAdapter(profileAdapter);
+
+            }
 
 
+            @Override
+            public void onFailure(Call<List<Profile>> call, Throwable t) {
+                Log.d("Failure",t.toString());
 
+            }
+        });
+    }
+
+    // set Up cardStack animation
     private void setUpCardStack() {
         layoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
         layoutManager.setStackFrom(StackFrom.None);
@@ -63,11 +97,11 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         layoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
         layoutManager.setOverlayInterpolator(new LinearInterpolator());
         cardStackView.setLayoutManager(layoutManager);
-        cardStackView.setAdapter(profileAdapter);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
 
 
     }
+    // set up buttons actions
     private void setupButton() {
         // skip button
         FloatingActionButton skip=findViewById(R.id.skip_button);
@@ -123,13 +157,25 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
 
     }
 
+    // set up progress dialog
+    private void setUpProgressDialog(){
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Fetching profiles data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-    // data
+    }
+
+
+    // data test
+    /*
     private List<Profile> createProfiles(){
-        List<Profile> profileList= ProfileDAO.createProfiles(this);
+        List<Profile> profileList= new ProfileDAO().createProfiles(this);
         return profileList;
 
     }
+
+     */
 
     @Override
     public void onCardDragging(Direction direction, float ratio) {

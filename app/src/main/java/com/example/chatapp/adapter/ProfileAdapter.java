@@ -45,7 +45,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         if(profile!=null){
             holder.fullNameText.setText(""+profile.getName());
             holder.ageText.setText(""+profile.getAge()+"  year");
-            Glide.with(holder.image_pic).load(getImage(profile.getProfile_pic())).into(holder.image_pic);
+            Glide.with(holder.image_pic).load(profile.getProfile_pic()).into(holder.image_pic);
 
 
         }
@@ -61,6 +61,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if (profileList==null)
+            return 0;
         return profileList.size();
     }
 
