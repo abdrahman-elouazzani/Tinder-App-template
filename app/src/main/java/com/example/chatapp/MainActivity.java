@@ -220,6 +220,11 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting:
+                startActivity(new Intent(this,SettingsActivity.class));
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
