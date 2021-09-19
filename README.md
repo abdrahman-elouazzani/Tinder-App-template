@@ -1,9 +1,9 @@
 ## Tinder-App-template
-android java application about **Tinder** Template app chat connected with api that allow the user to navigate the profiles and the user can swipe easy the profiles, swipe left if he doesn't like
-the profile and swipe right if he like the profile and the app allow you to see the available profiles and manage the settings .. .
+android java application about **Tinder** Template app chat connected with api that allow the user to navigate the profiles and the user can swap easy the profiles, swap left if he doesn't like
+the profile and swap right if he like the profile and the app allow you to see the available profiles and manage the settings .. .
 
 ## Features
-- As a User you will be able to navigate the profiles and swipe left and right .
+- As a User you will be able to navigate the profiles and swap left and right .
 - As a User you will be able to see for each profile/row the following details :
   1. `Profile name.`
   2. `Profile age.``
